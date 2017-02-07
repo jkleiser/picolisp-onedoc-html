@@ -1,0 +1,91 @@
+/* 05feb17jk
+ */
+
+body {
+  margin: 0;
+  background-color: #ddd;
+}
+
+div.docunit {
+  margin: auto;
+  max-width: 50em;
+  border: 1px solid #bbb;
+  background-color: white;
+  padding: 2em 7% 4em 10%;
+}
+
+h5 {
+  font-size: 95%;
+  margin-bottom: 1em;
+}
+
+a[href] {
+  text-decoration: none;
+  border-bottom: 1px solid #aae;
+}
+
+code a[href] {
+  font-size: 115%;
+}
+
+dt {
+  margin: 0.4em -2em 0 0;
+  font-weight: 600;
+  color: #444;
+}
+
+dd {
+  margin-top: 0.3em;
+  margin-bottom: 0.5em;
+  line-height: 130%;
+}
+
+/* The list of function words within a category */
+div[id="ref:"] dd, div[id="form-form:"] dd {
+  line-height: 130%;
+}
+
+/* The alphabet list */
+div[id="ref:"] p>a, div[id="form-form:"] p>a {
+  margin-right: 0.5em;
+}
+
+pre {
+  margin-top: 0.3em;
+  font-size: 13px;
+  line-height: 120%;
+}
+
+code {
+  color: rgb(0%,40%,0%);
+}
+
+dt code {
+  font-size: 115%;
+  word-spacing: -0.04em;
+}
+
+li {
+  margin-bottom: 0.4em;
+}
+
+div[id="toc:"] h3 {
+  font-size: 32px;
+}
+
+div[id="toc:"] li {
+  font-size: 120%;
+  margin-bottom: 0.5em;
+}
+
+@media only screen and (max-device-width : 1024px)  {
+  div.docunit {
+    max-width: 22cm;
+    min-width: 12.5cm;
+    padding: 2em 4% 4em 6%;
+  }
+  
+  div[id="ref:"] dd, div[id="form-form:"] dd {
+    line-height: 160%;
+  }
+}
