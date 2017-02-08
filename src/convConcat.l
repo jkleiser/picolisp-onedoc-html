@@ -1,6 +1,6 @@
 #!/usr/bin/picolisp /usr/lib/picolisp/lib.l
 
-# 29jan17jk
+# 08feb17jk
 # (c) Jon Kleiser
 
 # First cd picoLisp/doc/, then do
@@ -110,38 +110,39 @@
         (setq Tail (cdr Tail)) ) ) ) )
 
 (de convLink (F Chunk)
-	# First checking special case <a name=">foo">
-  (if (match '(@Before < a " " n a m e = "\"" > @X "\"" > @After) Chunk)
-    (cons
-      (make
-        (chain @Before (chop "<a name=\""))
-        (let Val (convName F (unquote (make (chain (chop "\">") @X) (link "\""))))
-        	(chain Val (chop "\">")) ) )
-      @After )
-    # Other normal cases, requiring a link to have a " just before the closing >
-		(ifn (match '(@Before < a " " @Props "\"" > @After) Chunk)
-			(cons Chunk NIL)
-			# Handle properties
-			(cons
-				(make
-					(chain @Before (chop "<a"))
-					(for PV (propValPairs (make (chain @Props) (link "\"")))  # adding back " at the end
-						(let (Prop (car PV)  Val (unquote (cdr PV)))
-							(setq Val
-								(if (= *Href Prop)
-									(convHref F Val)
-									(if (= *Name Prop)
-										(convName F Val)
-										(if (= *Target Prop)
-										  (convTarget F Val)
-                      # Some other property
-                      (idx '*SomePropIdx (pack Prop) T)
-                      Val ) ) ) )
-							(link " ")
-							(chain Prop (chop "=\"") Val)
-							(link "\"") ) )
-					(link ">") )
-				@After ) ) ) )
+  (use (@After @Before @Props @X)
+    # First checking special case <a name=">foo">
+    (if (match '(@Before < a " " n a m e = "\"" > @X "\"" > @After) Chunk)
+      (cons
+        (make
+          (chain @Before (chop "<a name=\""))
+          (let Val (convName F (unquote (make (chain (chop "\">") @X) (link "\""))))
+            (chain Val (chop "\">")) ) )
+        @After )
+      # Other normal cases, requiring a link to have a " just before the closing ">"
+      (ifn (match '(@Before < a " " @Props "\"" > @After) Chunk)
+        (cons Chunk NIL)
+        # Handle properties
+        (cons
+          (make
+            (chain @Before (chop "<a"))
+            (for PV (propValPairs (make (chain @Props) (link "\"")))  # adding back " at the end
+              (let (Prop (car PV)  Val (unquote (cdr PV)))
+                (setq Val
+                  (if (= *Href Prop)
+                    (convHref F Val)
+                    (if (= *Name Prop)
+                      (convName F Val)
+                      (if (= *Target Prop)
+                        (convTarget F Val)
+                        # Some other property
+                        (idx '*SomePropIdx (pack Prop) T)
+                        Val ) ) ) )
+                (link " ")
+                (chain Prop (chop "=\"") Val)
+                (link "\"") ) )
+            (link ">") )
+          @After ) ) ) ) )
 
 (de convAllLinks (F Chunk)
   (make
